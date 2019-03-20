@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="${mapper.packageValue}.HospitalMapper">
-    <resultMap type="com.aden.underwriting.entity.Hospital" id="hospitalMap">
-        <id property="id" jdbcType="INTEGER" column="id"/>
+<mapper namespace="${mapper.packageValue}.${clazz.className}Mapper">
+    <resultMap type="${clazz.packageValue}.${clazz.className}" id="${clazz.className?uncap_first}Map">
+        <#list columns as column>
+            <#if column.key == true>
+                <id property="${column.}" jdbcType="INTEGER" column="id"/>
+            </#if>
+        </#list>
+
         <result property="hospitalId" jdbcType="INTEGER" column="hospitalId"/>
         <result property="name" jdbcType="VARCHAR" column="name"/>
         <result property="region" jdbcType="VARCHAR" column="region"/>

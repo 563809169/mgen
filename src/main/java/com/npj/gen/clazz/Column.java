@@ -10,6 +10,11 @@ public class Column {
      * 是否是主键
      */
     private Boolean key;
+
+    /**
+     * 数据库列名
+     */
+    private String columnName;
     /**
      * 列名
      */
@@ -91,5 +96,13 @@ public class Column {
 
     public void setJavaType(String javaType) {
         this.javaType = javaType;
+    }
+
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
     }
 }

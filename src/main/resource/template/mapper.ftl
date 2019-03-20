@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 * @date ${date}
 */
 @Repository
-public interface ${className}Mapper {
+public interface ${clazz.className}Mapper {
 
 
 

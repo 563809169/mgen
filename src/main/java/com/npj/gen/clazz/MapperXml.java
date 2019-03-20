@@ -11,7 +11,7 @@ public class MapperXml extends BaseClazz {
 
     private Mapper mapper;
 
-    private List<Column> columns;
+    private Clazz clazz;
 
     /**
      * 基础列
@@ -26,13 +26,21 @@ public class MapperXml extends BaseClazz {
     private String keyColumn;
 
 
-    public List<Column> getColumns() {
-        return columns;
+    public Mapper getMapper() {
+        return mapper;
     }
 
-    public void setColumns(List<Column> columns) {
-        this.columns = columns;
-        this.baseColumn = columns.stream().map(Column::getName).collect(Collectors.joining(", "));
+    public void setMapper(Mapper mapper) {
+        this.mapper = mapper;
+    }
+
+    public Clazz getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Clazz clazz) {
+        this.clazz = clazz;
+        this.baseColumn = clazz.getColumns().stream().map(Column::getName).collect(Collectors.joining(", "));
     }
 
     public String getBaseColumn() {

@@ -15,6 +15,5 @@ public abstract class BaseClazz {
 
     protected String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-    protected String className;
 
 }

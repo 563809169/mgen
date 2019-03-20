@@ -131,6 +131,7 @@ public class MybatisGenMojo extends AbstractMojo {
         while (resultSet.next()) {
             Column column = new Column();
             String jdbcType = resultSet.getString("data_type");
+            column.setColumnName(resultSet.getString("column_name"));
             column.setName(nameStrategy.transform(resultSet.getString("column_name")));
             column.setComment(resultSet.getString("column_comment"));
             column.setJdbcType(jdbcType);

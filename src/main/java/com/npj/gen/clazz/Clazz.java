@@ -15,6 +15,9 @@ public class Clazz extends BaseClazz {
 
     private Boolean lombok;
 
+    private String className;
+
+
     public String getAuthor() {
         return author;
     }
