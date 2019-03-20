@@ -106,7 +106,7 @@
 
                     <entityPackage>com.npj.entity</entityPackage>
                     <mapperPackage>com.npj.mapper</mapperPackage>
-
+                    <branchName>testGen</branchName>
                     <tableMap>
                         <t_user>User</t_user>
                     </tableMap>
