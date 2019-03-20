@@ -31,7 +31,7 @@ public class ${className} {
 
 <#list columns as column>
     /**
-     <#if column.isNullable == "YES">* 可以为null</#if>
+     *<#if column.isNullable == "YES">可以为null</#if><#if column.defaultValue??>默认值:${column.defaultValue}</#if>
      * ${column.comment}
      */
     private ${column.javaType} ${column.name};
