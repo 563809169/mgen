@@ -15,4 +15,6 @@ public class Mapper extends BaseClazz {
     public void setClazz(Clazz clazz) {
         this.clazz = clazz;
     }
+
+
 }

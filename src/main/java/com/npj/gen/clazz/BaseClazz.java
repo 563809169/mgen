@@ -21,7 +21,7 @@ public abstract class BaseClazz {
     }
 
     public void setAuthor(String author) {
-        this.author = author;
+        this.author = "npj";
     }
 
     public String getPackageValue() {
