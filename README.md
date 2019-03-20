@@ -24,6 +24,8 @@ mvn clean install
         <forceGen>false</forceGen>
         <entityPackage>com.npj.entity</entityPackage>
         <mapperPackage>com.npj.mapper</mapperPackage>
+        <!--可选值 copy 和数据库字段一样  underscoreToCamelCase下划线转驼峰-->
+        <nameStrategy>underscoreToCamelCase</nameStrategy>
         <!--生成代码分支名-->
         <branchName>testGen</branchName>
         <tableMap>

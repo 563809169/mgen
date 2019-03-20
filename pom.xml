@@ -109,6 +109,8 @@
                     <mapperPackage>com.npj.mapper</mapperPackage>
                     <!--生成代码分支名-->
                     <branchName>testGen</branchName>
+                    <!--可选值 copy 和数据库字段一样  underscoreToCamelCase下划线转驼峰-->
+                    <nameStrategy>underscoreToCamelCase</nameStrategy>
                     <tableMap>
                         <t_user>User</t_user>
                     </tableMap>
