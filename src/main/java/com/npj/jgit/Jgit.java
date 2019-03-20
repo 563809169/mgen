@@ -58,7 +58,11 @@ public class Jgit {
     public Jgit createBranch(String name) throws MojoExecutionException {
         try {
             // check分支是否存在，如果存在直接返回
-            boolean present = git.branchList().call().stream().anyMatch(it -> Objects.equals(name, it.getName()));
+            boolean present = git.branchList().call().stream().anyMatch(it ->{
+//                Objects.equals(name, it.getName())
+                log.info("name is " + it.getName());
+                return true;
+            });
 
             if (present) {
                 return this;
