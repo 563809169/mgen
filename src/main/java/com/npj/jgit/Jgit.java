@@ -1,5 +1,6 @@
 package com.npj.jgit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
@@ -58,11 +59,7 @@ public class Jgit {
     public Jgit createBranch(String name) throws MojoExecutionException {
         try {
             // check分支是否存在，如果存在直接返回
-            boolean present = git.branchList().call().stream().anyMatch(it ->{
-//                Objects.equals(name, it.getName())
-                log.info("name is " + it.getName());
-                return true;
-            });
+            boolean present = git.branchList().call().stream().anyMatch(it -> StringUtils.endsWith(it.getName(), name));
 
             if (present) {
                 return this;
