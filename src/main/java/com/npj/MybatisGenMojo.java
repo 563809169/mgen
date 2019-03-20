@@ -1,6 +1,7 @@
 package com.npj;
 
 
+import com.npj.constant.Suffix;
 import com.npj.gen.clazz.*;
 import com.npj.jgit.Jgit;
 import com.npj.name.strategy.NameStrategy;
@@ -51,8 +52,9 @@ public class MybatisGenMojo extends AbstractMojo {
         // 生成时创建分支
         Jgit jgit = Jgit.init(getLog());
         // 新建分支，切换分支，生成代码，提交代码，切换回分支
-        jgit.createBranch(branchName)
-                .checkout(branchName)
+        String genBranch = branchName + Suffix.Branch.GEN;
+        jgit.createBranch(genBranch)
+                .checkout(genBranch)
                 .execute(() -> out(mappings))
                 .addAll()
                 .commit()
@@ -365,7 +367,7 @@ public class MybatisGenMojo extends AbstractMojo {
     @Parameter(defaultValue = "false")
     private Boolean lombok;
 
-    @Parameter(defaultValue = "gen_branch_001_001_001_001")
+    @Parameter(defaultValue = "gen_branch_this_is_gen_branch")
     private String branchName;
 
 }

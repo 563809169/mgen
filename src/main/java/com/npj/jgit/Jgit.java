@@ -88,7 +88,7 @@ public class Jgit {
                 return this;
             }
 
-            git.branchCreate().setName(name + "_this_is_gen_branch").call();
+            git.branchCreate().setName(name).call();
         } catch (GitAPIException e) {
             close();
             throw new MojoExecutionException("创建分支异常!", e);

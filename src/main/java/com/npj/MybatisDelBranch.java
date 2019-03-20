@@ -1,5 +1,6 @@
 package com.npj;
 
+import com.npj.constant.Suffix;
 import com.npj.jgit.Jgit;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -23,9 +24,9 @@ public class MybatisDelBranch extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         Jgit jgit = Jgit.open(getLog());
-        jgit.delBranch(branchName);
+        jgit.delBranch(branchName + Suffix.Branch.GEN);
     }
 
-    @Parameter(defaultValue = "gen_branch_001_001_001_001")
+    @Parameter(defaultValue = "gen_branch_this_is_gen_branch")
     private String branchName;
 }
