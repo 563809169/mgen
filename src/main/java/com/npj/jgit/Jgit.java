@@ -10,6 +10,7 @@ import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author pengjie.nan
@@ -56,6 +57,13 @@ public class Jgit {
 
     public Jgit createBranch(String name) throws MojoExecutionException {
         try {
+            // check分支是否存在，如果存在直接返回
+            boolean present = git.branchList().call().stream().anyMatch(it -> Objects.equals(name, it.getName()));
+
+            if (present) {
+                return this;
+            }
+
             git.branchCreate().setName(name).call();
         } catch (GitAPIException e) {
             close();
