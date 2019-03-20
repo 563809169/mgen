@@ -103,7 +103,8 @@
                     <xmlPath>/src/main/resource/sqlmap</xmlPath>
                     <mapperPath>/src/main/java/com/npj/mapper</mapperPath>
                     <entityPath>/src/main/java/com/npj/entity</entityPath>
-
+                    <!--如果强制生成，不创建分支-->
+                    <forceGen>false</forceGen>
                     <entityPackage>com.npj.entity</entityPackage>
                     <mapperPackage>com.npj.mapper</mapperPackage>
                     <branchName>testGen</branchName>
