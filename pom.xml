@@ -4,7 +4,7 @@
     <groupId>com.npj</groupId>
     <artifactId>mgen-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>2.0</version>
+    <version>2.1</version>
     <name>mgen Maven Mojo</name>
     <url>http://maven.apache.org</url>
     <dependencies>
@@ -93,7 +93,7 @@
             <plugin>
                 <groupId>com.npj</groupId>
                 <artifactId>mgen-maven-plugin</artifactId>
-                <version>2.0</version>
+                <version>2.1</version>
                 <configuration>
                     <host>localhost</host>
                     <port>3306</port>
@@ -107,6 +107,7 @@
                     <forceGen>false</forceGen>
                     <entityPackage>com.npj.entity</entityPackage>
                     <mapperPackage>com.npj.mapper</mapperPackage>
+                    <!--生成代码分支名-->
                     <branchName>testGen</branchName>
                     <tableMap>
                         <t_user>User</t_user>

@@ -35,12 +35,37 @@ public class Jgit {
         return new Jgit(log).initGit();
     }
 
+    public static Jgit open(Log log) throws MojoExecutionException {
+        File file = new File(System.getProperty("user.dir"));
+        return new Jgit(log).openGit(file);
+    }
+
     public ObjectId resolve() throws MojoExecutionException {
         try {
             return git.getRepository().resolve("gen_branch_001_001_001");
         } catch (IOException e) {
             close();
             throw new MojoExecutionException("resolve异常", e);
+        }
+    }
+
+    public void delBranch(String name) throws MojoExecutionException {
+        try {
+            // check分支
+            boolean present = branchPresent(name);
+            if (!present) {
+                log.warn(name + "分支不存在");
+                return;
+            }
+            // 只能删除生成的分支
+            boolean isGenBranch = StringUtils.endsWith(name, "_this_is_gen_branch");
+            if (!isGenBranch) {
+                throw new MojoExecutionException(name + "分支不是生成分支");
+            }
+
+            git.branchDelete().setBranchNames(name).setForce(true).call();
+        } catch (GitAPIException e) {
+            throw new MojoExecutionException("删除分支异常", e);
         }
     }
 
@@ -57,18 +82,29 @@ public class Jgit {
     public Jgit createBranch(String name) throws MojoExecutionException {
         try {
             // check分支是否存在，如果存在直接返回
-            boolean present = git.branchList().call().stream().anyMatch(it -> StringUtils.endsWith(it.getName(), name));
+            boolean present = branchPresent(name);
 
             if (present) {
                 return this;
             }
 
-            git.branchCreate().setName(name).call();
+            git.branchCreate().setName(name + "_this_is_gen_branch").call();
         } catch (GitAPIException e) {
             close();
             throw new MojoExecutionException("创建分支异常!", e);
         }
         return this;
+    }
+
+    /**
+     * check分支是否存在
+     */
+    private boolean branchPresent(String name) throws MojoExecutionException {
+        try {
+            return git.branchList().call().stream().anyMatch(it -> StringUtils.endsWith(it.getName(), name));
+        } catch (GitAPIException e) {
+            throw new MojoExecutionException("检查分支是否存在异常!", e);
+        }
     }
 
     private Jgit initGit() throws MojoExecutionException, MojoFailureException {
@@ -82,7 +118,7 @@ public class Jgit {
             // 如果是init得删除
             commit();
         } else {
-            git = openGit(file);
+            openGit(file);
             // check是否有未提交的内容
             boolean clean = gitStatus().isClean();
             if (!clean) {
@@ -93,14 +129,14 @@ public class Jgit {
         return this;
     }
 
-    private Git openGit(File file) throws MojoExecutionException {
+    private Jgit openGit(File file) throws MojoExecutionException {
         try {
             git = Git.open(file);
         } catch (IOException e) {
             close();
             throw new MojoExecutionException("打开文件失败", e);
         }
-        return git;
+        return this;
     }
 
     public Jgit checkout(String name) throws MojoExecutionException {
