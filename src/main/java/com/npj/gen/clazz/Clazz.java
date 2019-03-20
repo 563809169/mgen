@@ -13,7 +13,7 @@ public class Clazz extends BaseClazz {
 
     private Set<String> needImport;
 
-    private Boolean lombok;
+    private Boolean lombok = false;
 
     private String className;
 
