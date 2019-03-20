@@ -11,7 +11,6 @@ import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * @author pengjie.nan
@@ -20,7 +19,6 @@ import java.util.Objects;
 public class Jgit {
 
     private final Log log;
-    private Boolean isGitRepo = true;
     private static Git git;
     private String oldBranch;
 
@@ -79,7 +77,6 @@ public class Jgit {
         log.info("----" + file.getAbsolutePath());
         File gitDir = new File(file.getAbsolutePath() + "/.git");
         if (!gitDir.exists()) {
-            isGitRepo = false;
             git = initGit(file);
             addAll();
             // 如果是init得删除

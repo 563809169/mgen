@@ -17,6 +17,15 @@ public class Clazz extends BaseClazz {
 
     private String className;
 
+    private String tableName;
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
 
     public List<Column> getColumns() {
         return columns;

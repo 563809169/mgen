@@ -207,6 +207,7 @@ public class MybatisGenMojo extends AbstractMojo {
         clazz.setPackageValue(entityPackage);
         clazz.setClassName(tableMap.get(table));
         clazz.setAuthor(author);
+        clazz.setTableName(table);
         clazz.setNeedImport(needImport);
         clazz.setLombok(lombok);
         return clazz;

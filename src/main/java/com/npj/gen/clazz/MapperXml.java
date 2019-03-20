@@ -1,7 +1,5 @@
 package com.npj.gen.clazz;
 
-import java.util.stream.Collectors;
-
 /**
  * @author pengjie.nan
  * @date 2019-03-20
@@ -11,12 +9,6 @@ public class MapperXml extends BaseClazz {
     private Mapper mapper;
 
     private Clazz clazz;
-
-    /**
-     * 基础列
-     */
-    private String baseColumn;
-
 
     private Boolean isGeneratedKey;
 
@@ -39,15 +31,6 @@ public class MapperXml extends BaseClazz {
 
     public void setClazz(Clazz clazz) {
         this.clazz = clazz;
-        this.baseColumn = clazz.getColumns().stream().map(Column::getName).collect(Collectors.joining(", "));
-    }
-
-    public String getBaseColumn() {
-        return baseColumn;
-    }
-
-    public void setBaseColumn(String baseColumn) {
-        this.baseColumn = baseColumn;
     }
 
     public Boolean getGeneratedKey() {
