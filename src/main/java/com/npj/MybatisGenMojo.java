@@ -1,8 +1,7 @@
 package com.npj;
 
 
-import com.npj.gen.clazz.Clazz;
-import com.npj.gen.clazz.Column;
+import com.npj.gen.clazz.*;
 import com.npj.jgit.Jgit;
 import com.npj.name.strategy.NameStrategy;
 import com.npj.name.strategy.NameStrategyFactory;
@@ -37,42 +36,66 @@ public class MybatisGenMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
         checkInputTableList();
         // 如果输入的table是有效的
-        List<Clazz> clazzList = getMappingClazzInfo();
+        List<Mapping> mappings = getMappingInfo();
         //输出实体
-        getLog().info("class is {}" + JsonUtil.toJson(clazzList));
-        outEntity(clazzList);
+        getLog().info("mapping info is {}" + JsonUtil.toJson(mappings));
+        outMapping(mappings);
     }
 
-    private void outEntity(List<Clazz> clazzList) throws MojoExecutionException, MojoFailureException {
-        Template template = getTemplate("clazz.ftl");
+    private void outMapping(List<Mapping> mappings) throws MojoFailureException, MojoExecutionException {
         // 生成时创建分支
         Jgit jgit = Jgit.init(getLog());
         // 新建分支，切换分支，生成代码，提交代码，切换回分支
         jgit.createBranch(branchName)
                 .checkout(branchName)
-                .execute(() -> {
-                    for (Clazz c : clazzList) {
-                        Writer out = null;
-                        try {
-                            out = getEntityOut(c.getClassName() + ".java");
-                            template.process(c, out);
-                        } catch (MojoExecutionException | TemplateException | IOException e) {
-                            getLog().error("输出异常", e);
-                        } finally {
-                            try {
-                                if (out != null) {
-                                    out.close();
-                                }
-                            } catch (IOException e) {
-                                getLog().error("输出异常", e);
-                            }
-                        }
-                    }
-                })
+                .execute(() -> out(mappings))
                 .addAll()
                 .commit()
                 .checkout(jgit.getOldBranch())
                 .close();
+    }
+
+    private void out(List<Mapping> mappings) {
+        Template clazzFtl;
+        Template mapperFtl;
+        Template xmlFtl;
+        try {
+            clazzFtl = getTemplate("clazz.ftl");
+            mapperFtl = getTemplate("mapper.ftl");
+            xmlFtl = getTemplate("xmlFtl");
+        } catch (MojoExecutionException e) {
+            getLog().error("获取模板异常", e);
+            return;
+        }
+
+        for (Mapping mapping : mappings) {
+            Clazz c = mapping.getClazz();
+            Mapper mapper = mapping.getMapper();
+            MapperXml mapperXml = mapping.getMapperXml();
+            try {
+                outTemplate(clazzFtl, c, getEntityOut(c.getClassName() + ".java"));
+                outTemplate(mapperFtl, mapper, getMapperOut(c.getClassName() + "Mapper.java"));
+                outTemplate(xmlFtl, mapperXml, getXmlOut(c.getClassName() + "Mapper.xml"));
+            } catch (MojoExecutionException e) {
+                getLog().error("模板输出异常", e);
+            }
+        }
+    }
+
+    private <T> void outTemplate(Template template, T obj, Writer out) {
+        try {
+            template.process(obj, out);
+        } catch (TemplateException | IOException e) {
+            getLog().error("输出异常", e);
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                getLog().error("输出异常", e);
+            }
+        }
     }
 
 
@@ -81,7 +104,7 @@ public class MybatisGenMojo extends AbstractMojo {
         Configuration config = new Configuration();
         config.setClassForTemplateLoading(MybatisGenMojo.class, "/template");
         try {
-            return config.getTemplate("clazz.ftl");
+            return config.getTemplate(templateFile);
         } catch (IOException e) {
             throw new MojoExecutionException("clazz.ftl异常", e);
         }
@@ -89,6 +112,20 @@ public class MybatisGenMojo extends AbstractMojo {
 
     private Writer getEntityOut(String fileName) throws MojoExecutionException {
         String fullEntityPath = basedir.getAbsolutePath() + entityPath;
+        return getWriter(fileName, fullEntityPath);
+    }
+
+    private Writer getMapperOut(String fileName) throws MojoExecutionException {
+        String fullEntityPath = basedir.getAbsolutePath() + mapperPath;
+        return getWriter(fileName, fullEntityPath);
+    }
+
+    private Writer getXmlOut(String fileName) throws MojoExecutionException {
+        String fullEntityPath = basedir.getAbsolutePath() + xmlPath;
+        return getWriter(fileName, fullEntityPath);
+    }
+
+    private Writer getWriter(String fileName, String fullEntityPath) throws MojoExecutionException {
         File file = new File(fullEntityPath);
         if (!file.exists()) {
             file.mkdirs();
@@ -103,16 +140,33 @@ public class MybatisGenMojo extends AbstractMojo {
     }
 
 
-    private List<Clazz> getMappingClazzInfo() throws MojoExecutionException {
+    private List<Mapping> getMappingInfo() throws MojoExecutionException {
         NameStrategy nameStrategy = NameStrategyFactory.getNameStrategy(this.nameStrategy);
         Connection conn = getDbConn();
         try {
-            List<Clazz> clazzList = new ArrayList<>();
+            List<Mapping> mappings = new ArrayList<>();
+
             for (String table : tableMap.keySet()) {
+                Mapping mapping = new Mapping();
+
                 Clazz clazz = getClazz(nameStrategy, conn, table);
-                clazzList.add(clazz);
+                mapping.setClazz(clazz);
+                // 构建mapper信息
+                Mapper mapper = new Mapper();
+                mapper.setClazz(clazz);
+                mapper.setAuthor(author);
+                mapper.setPackageValue(mapperPath);
+                mapping.setMapper(mapper);
+
+                // 构建xml信息
+                MapperXml mapperXml = new MapperXml();
+                mapperXml.setClazz(clazz);
+                mapperXml.setMapper(mapper);
+                mapping.setMapperXml(mapperXml);
+
+                mappings.add(mapping);
             }
-            return clazzList;
+            return mappings;
         } catch (SQLException e) {
             throw new MojoExecutionException("获取列信息异常", e);
         } finally {
@@ -249,7 +303,7 @@ public class MybatisGenMojo extends AbstractMojo {
     private File basedir;
 
     @Parameter
-    private String mapperInterfacePath;
+    private String mapperPath;
 
     @Parameter
     private String xmlPath;
@@ -278,6 +332,10 @@ public class MybatisGenMojo extends AbstractMojo {
     @Parameter
     private String entityPackage;
 
+    @Parameter
+    private String mapperPackage;
+
+
     @Parameter(defaultValue = "")
     private String author;
 
@@ -286,7 +344,7 @@ public class MybatisGenMojo extends AbstractMojo {
      * copy
      * underscoreToCamelCase
      */
-    @Parameter
+    @Parameter(defaultValue = "underscoreToCamelCase")
     private String nameStrategy;
 
     /**

@@ -3,7 +3,7 @@ package ${packageValue};
 import org.springframework.stereotype.Repository;
 
 /**
-* @author
+* @author ${author}
 * @date ${date}
 */
 @Repository

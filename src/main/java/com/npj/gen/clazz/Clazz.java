@@ -18,38 +18,6 @@ public class Clazz extends BaseClazz {
     private String className;
 
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getPackageValue() {
-        return packageValue;
-    }
-
-    public void setPackageValue(String packageValue) {
-        this.packageValue = packageValue;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
     public List<Column> getColumns() {
         return columns;
     }
@@ -72,5 +40,13 @@ public class Clazz extends BaseClazz {
 
     public void setLombok(Boolean lombok) {
         this.lombok = lombok;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 }
