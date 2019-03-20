@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
     </#if>
 </#list>
-<#if lombok == false>
+<#if lombok == true>
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,6 +46,7 @@ public class ${className} {
     public void set${column.name?cap_first}(${column.javaType} ${column.name}) {
         this.${column.name} = ${column.name};
     }
+
         </#list>
 </#if>
 
