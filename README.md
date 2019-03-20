@@ -1,11 +1,11 @@
-####安装
+#### 安装
 git clone https://github.com/563809169/mgen.git
 
 cd mgen
 
 mvn clean install
 
-####配置
+#### 配置
 ~~~xml
 <plugin>
     <groupId>com.npj</groupId>
