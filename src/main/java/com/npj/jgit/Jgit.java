@@ -110,7 +110,6 @@ public class Jgit {
     private Jgit initGit() throws MojoExecutionException, MojoFailureException {
         File file = new File(System.getProperty("user.dir"));
         // check是否存在.git文件夹
-        log.info("----" + file.getAbsolutePath());
         File gitDir = new File(file.getAbsolutePath() + "/.git");
         if (!gitDir.exists()) {
             git = initGit(file);
