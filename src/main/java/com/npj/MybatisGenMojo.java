@@ -62,7 +62,7 @@ public class MybatisGenMojo extends AbstractMojo {
         try {
             clazzFtl = getTemplate("clazz.ftl");
             mapperFtl = getTemplate("mapper.ftl");
-            xmlFtl = getTemplate("xmlFtl");
+            xmlFtl = getTemplate("mapperXml.ftl");
         } catch (MojoExecutionException e) {
             getLog().error("获取模板异常", e);
             return;
