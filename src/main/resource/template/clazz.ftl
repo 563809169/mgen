@@ -17,7 +17,7 @@ import lombok.Builder;
 </#if>
 
 /**
- * @author ${author}
+ * @author <#if author??>${author}</#if>
  * @date ${date}
  */
 <#if lombok == true>

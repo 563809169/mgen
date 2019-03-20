@@ -155,7 +155,7 @@ public class MybatisGenMojo extends AbstractMojo {
                 Mapper mapper = new Mapper();
                 mapper.setClazz(clazz);
                 mapper.setAuthor(author);
-                mapper.setPackageValue(mapperPath);
+                mapper.setPackageValue(mapperPackage);
                 mapping.setMapper(mapper);
 
                 // 构建xml信息
