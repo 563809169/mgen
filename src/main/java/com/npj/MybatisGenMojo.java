@@ -39,10 +39,15 @@ public class MybatisGenMojo extends AbstractMojo {
         List<Mapping> mappings = getMappingInfo();
         //输出实体
         getLog().info("mapping info is {}" + JsonUtil.toJson(mappings));
-        outMapping(mappings);
+        if (forceGen) {
+            out(mappings);
+        } else {
+            outMappingWithBranch(mappings);
+        }
+
     }
 
-    private void outMapping(List<Mapping> mappings) throws MojoFailureException, MojoExecutionException {
+    private void outMappingWithBranch(List<Mapping> mappings) throws MojoFailureException, MojoExecutionException {
         // 生成时创建分支
         Jgit jgit = Jgit.init(getLog());
         // 新建分支，切换分支，生成代码，提交代码，切换回分支
