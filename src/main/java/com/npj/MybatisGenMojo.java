@@ -66,10 +66,10 @@ public class MybatisGenMojo extends AbstractMojo {
     }
 
     private String ensurePath(String path) {
-        if (StringUtils.startsWith(path, "/")) {
+        if (StringUtils.startsWith(path, File.separator)) {
             return path;
         }
-        return "/" + path;
+        return File.separator + path;
     }
 
 
