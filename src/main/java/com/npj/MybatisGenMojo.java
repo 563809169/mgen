@@ -35,6 +35,7 @@ public class MybatisGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
+        checkParam();
         checkInputTableList();
         // 如果输入的table是有效的
         List<Mapping> mappings = getMappingInfo();
@@ -47,6 +48,30 @@ public class MybatisGenMojo extends AbstractMojo {
         }
 
     }
+
+    private void checkParam() throws MojoExecutionException {
+        if (StringUtils.isEmpty(mapperPath)) {
+            throw new MojoExecutionException("mapperPath参数不可为空");
+        }
+        if (StringUtils.isEmpty(xmlPath)) {
+            throw new MojoExecutionException("xmlPath参数不可为空");
+        }
+        if (StringUtils.isEmpty(entityPath)) {
+            throw new MojoExecutionException("entityPath参数不可为空");
+        }
+
+        mapperPath = ensurePath(mapperPath);
+        xmlPath = ensurePath(xmlPath);
+        entityPath = ensurePath(entityPath);
+    }
+
+    private String ensurePath(String path) {
+        if (StringUtils.startsWith(path, "/")) {
+            return path;
+        }
+        return "/" + path;
+    }
+
 
     private void outMappingWithBranch(List<Mapping> mappings) throws MojoFailureException, MojoExecutionException {
         // 生成时创建分支
@@ -126,6 +151,7 @@ public class MybatisGenMojo extends AbstractMojo {
         String fullEntityPath = basedir.getAbsolutePath() + mapperPath;
         return getWriter(fileName, fullEntityPath);
     }
+
 
     private Writer getXmlOut(String fileName) throws MojoExecutionException {
         String fullEntityPath = basedir.getAbsolutePath() + xmlPath;
