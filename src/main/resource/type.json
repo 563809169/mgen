@@ -16,6 +16,7 @@
   "BLOB": "Byte[]",
   "VARBINARY": "Byte[]",
   "CLOB" : "String",
+  "TEXT" : "String",
 
   "int": "Integer",
   "integer" : "Integer",
@@ -33,5 +34,6 @@
   "timestamp": "LocalDateTime",
   "blob": "Byte[]",
   "varbinary": "Byte[]",
-  "clob" : "String"
+  "clob" : "String",
+  "text" : "String"
 }
