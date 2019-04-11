@@ -17,6 +17,9 @@ public class NameStrategyFactory {
         if (name.equalsIgnoreCase(NameStrategy.COPY)) {
             return new CopyStrategy();
         }
+        if (name.equalsIgnoreCase(NameStrategy.LOWER_CASE)) {
+            return new LowerCaseStrategy();
+        }
         throw new MojoExecutionException("不可识别的转换策略");
     }
 

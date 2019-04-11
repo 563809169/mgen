@@ -16,6 +16,10 @@ public interface NameStrategy {
      */
     String UNDERSCORE_TO_CAMEL_CASE = "underscoreToCamelCase";
 
+    /**
+     * 去掉下划线，转小写
+     */
+    String LOWER_CASE = "LowerCase";
 
     /**
      * 转换操作

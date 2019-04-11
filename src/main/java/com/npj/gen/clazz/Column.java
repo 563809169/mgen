@@ -1,5 +1,7 @@
 package com.npj.gen.clazz;
 
+import java.util.Objects;
+
 /**
  * @author pengjie.nan
  * @date 2019-03-11
@@ -25,9 +27,13 @@ public class Column {
     private String comment;
 
     /**
-     * 类型
+     * db类型
      */
     private String jdbcType;
+    /**
+     * mybatis type
+     */
+    private String jdbcActualType;
 
     /**
      * 默认值
@@ -71,6 +77,18 @@ public class Column {
     }
 
     public void setJdbcType(String jdbcType) {
+        if (Objects.equals(jdbcType, "int")) {
+            this.jdbcActualType = "INTEGER";
+        }
+        if (Objects.equals(jdbcType, "text")) {
+            this.jdbcActualType = "VARCHAR";
+        }
+        if (Objects.equals(jdbcType, "double")) {
+            this.jdbcActualType = "DOUBLE";
+        }
+        if (Objects.equals(jdbcType, "varchar")) {
+            this.jdbcActualType = "VARCHAR";
+        }
         this.jdbcType = jdbcType;
     }
 
@@ -104,5 +122,13 @@ public class Column {
 
     public void setColumnName(String columnName) {
         this.columnName = columnName;
+    }
+
+    public String getJdbcActualType() {
+        return jdbcActualType;
+    }
+
+    public void setJdbcActualType(String jdbcActualType) {
+        this.jdbcActualType = jdbcActualType;
     }
 }
