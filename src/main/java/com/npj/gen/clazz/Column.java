@@ -89,6 +89,9 @@ public class Column {
         if (Objects.equals(jdbcType, "varchar")) {
             this.jdbcActualType = "VARCHAR";
         }
+        if (Objects.equals(jdbcType, "tinyint")) {
+            this.jdbcActualType = "TINYINT";
+        }
         this.jdbcType = jdbcType;
     }
 
