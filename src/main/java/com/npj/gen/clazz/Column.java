@@ -92,6 +92,9 @@ public class Column {
         if (Objects.equals(jdbcType, "tinyint")) {
             this.jdbcActualType = "TINYINT";
         }
+        if (Objects.equals(jdbcType, "datetime")) {
+            this.jdbcActualType = "TIMESTAMP";
+        }
         this.jdbcType = jdbcType;
     }
 

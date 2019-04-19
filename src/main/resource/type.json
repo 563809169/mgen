@@ -17,6 +17,7 @@
   "VARBINARY": "Byte[]",
   "CLOB" : "String",
   "TEXT" : "String",
+  "DATETIME": "LocalDateTime",
 
   "int": "Integer",
   "integer" : "Integer",
@@ -30,6 +31,7 @@
   "tinyint": "Byte",
   "bit": "Boolean",
   "date": "LocalDate",
+  "datetime": "LocalDateTime",
   "time": "LocalTime",
   "timestamp": "LocalDateTime",
   "blob": "Byte[]",
